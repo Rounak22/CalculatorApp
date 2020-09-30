@@ -4,8 +4,8 @@ import AutoScale from "./AutoScale";
 export default class CalculatorViewContainer extends React.Component {
   render() {
     const { value, ...props } = this.props
-    
-    const language = navigator.language || 'en-US'
+    //For correct amount of commas for thoushands and millions
+    const language = 'en-US'
     let formattedValue = parseFloat(value).toLocaleString(language, {
       useGrouping: true,
       maximumFractionDigits: 6

@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Calculator from './Components/Container';
 import FooterComponent from './Components/FooterComponent';
-import { render } from 'react-dom';
+
 import * as actions from "./Actions/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,7 +12,7 @@ import { bindActionCreators } from "redux";
 
 class App extends React.Component {
 render(){
-   console.log(this.props)
+
     return (
         <div className="App">
          <div id="wrapper" className={this.props.themeFlag ? "darkTheme":"lightTheme"}>

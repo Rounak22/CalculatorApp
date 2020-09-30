@@ -1,16 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 
 import CalculatorPad from './CalculatorPad';
 import CalculatorViewContainer from './CalculatorViewContainer';
-import DigitsKeys from './DigitsKeys';
-import OperatorKeys from './OperatorKeys';
-import FunctionalKeys from './FunctionalKeys';
+
 import * as actions from "../Actions/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
+//Calculator Operations marking
 const CalculatorOperations = {
   '/': (prevValue, nextValue) => prevValue / nextValue,
   '*': (prevValue, nextValue) => prevValue * nextValue,
@@ -19,16 +17,16 @@ const CalculatorOperations = {
   '=': (prevValue, nextValue) => nextValue,
   '**': (prevValue, nextValue) => nextValue * nextValue ,
   '***': (prevValue, nextValue) => nextValue * nextValue *nextValue,
-  '%2': (prevValue, nextValue) => Math.sqrt( nextValue ),
+  '%2': (prevValue, nextValue) => Math.sqrt( nextValue ),//Math lib
   '%3': (prevValue, nextValue) => Math.cbrt( nextValue ),
   'log': (prevValue, nextValue) => Math.log( nextValue ),
 }
  class Calculator extends React.Component {
   state = {
     value: null,
-    displayValue: '0',
-    operator: null,
-    waitingForOperand: false
+    displayValue: '0',//default as 0
+    operator: null, //default as null
+    flagOperand: false
   };
   
   clearAll() {
@@ -36,7 +34,7 @@ const CalculatorOperations = {
       value: null,
       displayValue: '0',
       operator: null,
-      waitingForOperand: false
+      flagOperand: false
     })
   }
 
@@ -84,18 +82,18 @@ const CalculatorOperations = {
     if (!(/\./).test(displayValue)) {
       this.setState({
         displayValue: displayValue + '.',
-        waitingForOperand: false
+        flagOperand: false
       })
     }
   }
   
   inputDigit(digit) {
-    const { displayValue, waitingForOperand } = this.state
+    const { displayValue, flagOperand } = this.state
     
-    if (waitingForOperand) {
+    if (flagOperand) {
       this.setState({
         displayValue: String(digit),
-        waitingForOperand: false
+        flagOperand: false
       })
     } else {
       this.setState({
@@ -123,7 +121,7 @@ const CalculatorOperations = {
     }
     
     this.setState({
-      waitingForOperand: true,
+      flagOperand: true,
       operator: nextOperator
     })
   }
@@ -180,9 +178,9 @@ const CalculatorOperations = {
         <div className="calculator-keypad">
           <div className="input-keys">
           <div className="function-keys">
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-clear" onPress={() => clearDisplay ? this.clearDisplay() : this.clearAll()}>{clearText}</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-sign" onPress={() => this.toggleSign()}>±</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-percent" onPress={() => this.inputPercent()}>%</CalculatorPad>
+        <CalculatorPad className="key-clear" onPress={() => clearDisplay ? this.clearDisplay() : this.clearAll()}>{clearText}</CalculatorPad>
+        <CalculatorPad className="key-sign" onPress={() => this.toggleSign()}>±</CalculatorPad>
+        <CalculatorPad className="key-percent" onPress={() => this.inputPercent()}>%</CalculatorPad>
       </div>
             
       <div className="digit-keys">
@@ -200,19 +198,19 @@ const CalculatorOperations = {
         </div>
           </div>
           <div className="operator-keys">
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-divide" onPress={() => this.performOperation('/')}>÷</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-multiply" onPress={() => this.performOperation('*')}>×</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-subtract" onPress={() => this.performOperation('-')}>−</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-add" onPress={() => this.performOperation('+')}>+</CalculatorPad>
-        <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-equals" onPress={() => this.performOperation('=')}>=</CalculatorPad>
+        <CalculatorPad className="key-divide" onPress={() => this.performOperation('/')}>÷</CalculatorPad>
+        <CalculatorPad className="key-multiply" onPress={() => this.performOperation('*')}>×</CalculatorPad>
+        <CalculatorPad className="key-subtract" onPress={() => this.performOperation('-')}>−</CalculatorPad>
+        <CalculatorPad className="key-add" onPress={() => this.performOperation('+')}>+</CalculatorPad>
+        <CalculatorPad className="key-equals" onPress={() => this.performOperation('=')}>=</CalculatorPad>
       </div>
 
      {this.props.scientificFlag && <div className="scientific-keys">
-    <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-clear"  onPress={() => this.performOperation('**')}>^2</CalculatorPad>
-    <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-sign"  onPress={() => this.performOperation('***')}>^3</CalculatorPad>
-    <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-percent"  onPress={() => this.performOperation('%2')}>sqrt</CalculatorPad>
-    <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-percent"  onPress={() => this.performOperation('%3')}>cbrt</CalculatorPad>
-    <CalculatorPad className={this.props.themeFlag ? "darkKeys":"lightKeys"} className="key-percent"  onPress={() => this.performOperation('log')}>log</CalculatorPad>
+    <CalculatorPad className="key-clear"  onPress={() => this.performOperation('**')}>^2</CalculatorPad>
+    <CalculatorPad className="key-sign"  onPress={() => this.performOperation('***')}>^3</CalculatorPad>
+    <CalculatorPad className="key-percent"  onPress={() => this.performOperation('%2')}>sqrt</CalculatorPad>
+    <CalculatorPad className="key-percent"  onPress={() => this.performOperation('%3')}>cbrt</CalculatorPad>
+    <CalculatorPad className="key-percent"  onPress={() => this.performOperation('log')}>log</CalculatorPad>
  
 
   </div>} 
