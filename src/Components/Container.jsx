@@ -103,27 +103,39 @@ const CalculatorOperations = {
   }
   
   performOperation(nextOperator) {    
-    const { value, displayValue, operator } = this.state
+    const { value, displayValue, operator,flagOperand } = this.state
     const inputValue = parseFloat(displayValue)
-    
-    if (value == null) {
+   
+
+    if(!flagOperand && value == null){
       this.setState({
-        value: inputValue
-      })
-    } else if (operator) {
-      const currentValue = value || 0
-      const newValue = CalculatorOperations[operator](currentValue, inputValue)
-      
-      this.setState({
-        value: newValue,
-        displayValue: String(newValue)
+        operator: nextOperator
       })
     }
-    
-    this.setState({
-      flagOperand: true,
-      operator: nextOperator
-    })
+    else{
+      if (value == null) {
+        this.setState({
+          value: inputValue
+        })
+      } else if (operator) {
+        const currentValue = value || 0
+        const newValue = CalculatorOperations[operator](currentValue, inputValue)
+        
+        this.setState({
+          value: newValue,
+          displayValue: String(newValue)
+        })
+      }
+      
+      this.setState({
+        flagOperand: true,
+        operator: nextOperator
+      })
+    }
+   
+
+   
+    console.log(this.state);
   }
   
   handleKeyDown = (event) => {

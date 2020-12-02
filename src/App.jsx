@@ -7,6 +7,7 @@ import FooterComponent from './Components/FooterComponent';
 import * as actions from "./Actions/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import ContainerTable from './Components/UserTable/Container';
 
 
 
@@ -15,12 +16,15 @@ render(){
 
     return (
         <div className="App">
+          {/* */}
+          <ContainerTable /> 
          <div id="wrapper" className={this.props.themeFlag ? "darkTheme":"lightTheme"}>
       <div id="app">
-        <Calculator />
+      
+       
     
       </div>
-    <FooterComponent props={this.props} />
+    {/* <FooterComponent props={this.props} /> */}
     </div>
     
         </div>

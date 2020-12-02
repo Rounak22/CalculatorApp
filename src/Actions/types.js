@@ -1,2 +1,6 @@
 export const TOGGLE_THEME = "TOGGLE_THEME";
 export const TOGGLE_SCIENTIFIC_FLAG = "TOGGLE_SCIENTIFIC_FLAG";
+export const SET_USER_LIST = "SET_USER_LIST";
+export const SET_USER_DETAIL = "SET_USER_DETAIL";
+export const TOGGLE_USER = "TOGGLE_USER";
+export const DELETE_USER = "DELETE_USER";
